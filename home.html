@@ -4,15 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    <link rel="stylesheet" href="home.css" />
   </head>
   <body>
     <h1>Popular OnePiece Cards</h1>
-    <form>
-      <input type="text" placeholder="Search..." name="search" />
+    <form id="search-form">
+      <input
+        type="text"
+        placeholder="Search cards by ID"
+        name="search"
+        id="search-card-input"
+      />
       <button type="submit">Search</button>
     </form>
-    <section id="cards">
-      <button onclick="fetchCards()">Fetch Cards</button>
+    <section id="popular-cards-section">
       <!-- Use API to fetch cards -->
     </section>
     <script
