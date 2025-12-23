@@ -44,3 +44,10 @@ const searchSpecificCard = async (event) => {
 
 // user's search submisstion homepage
 $("#search-form").on("submit", searchSpecificCard);
+
+const showSpecificCardInfo = async () => {
+  try {
+  } catch (error) {
+    console.error("Error searching for card:", error);
+  }
+};
