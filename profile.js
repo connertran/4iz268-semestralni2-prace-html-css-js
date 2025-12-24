@@ -1,3 +1,9 @@
+import {
+  fetchCardDataByImage,
+  dislikeCardLocalStorage,
+  fetchIndividualCard,
+} from "./app.js";
+
 const displayLikedCards = async () => {
   try {
     $("#liked-cards-container").empty();
@@ -23,4 +29,63 @@ const displayLikedCards = async () => {
     console.error("Error displaying liked cards:", error);
   }
 };
-displayLikedCards();
+
+displayLikedCards(); // default view when profile.html loads
+
+const toggleToDeck = () => {
+  $("#deck-section").show();
+  $("#liked-cards-section").hide();
+  displayDecks();
+};
+
+const toggleToLikedCards = () => {
+  $("#deck-section").hide();
+  $("#liked-cards-section").show();
+  displayLikedCards();
+};
+
+const displayDecks = () => {
+  try {
+    $("#deck-container").empty();
+    const decks = JSON.parse(localStorage.getItem("decks")) || [];
+    for (let i = 0; i < decks.length; i++) {
+      const deck = decks[i];
+      const $deckElement = $('<div class="individual-deck-div"></div>');
+      $deckElement.html(`
+        <h3>${deck.name}</h3>
+        <button class="card-btn" onclick="deleteDeck('${deck.name}')">Delete Deck</button>
+      `);
+      $("#deck-container").append($deckElement);
+    }
+  } catch (error) {
+    console.error("Error displaying decks:", error);
+  }
+};
+
+$("#add-deck-form").on("submit", addDeck);
+function addDeck(event) {
+  event.preventDefault();
+  const deckName = $("#deck-name-input").val();
+  const deck = {
+    name: deckName,
+    cards: [],
+  };
+  const decks = JSON.parse(localStorage.getItem("decks")) || [];
+  decks.push(deck);
+  localStorage.setItem("decks", JSON.stringify(decks));
+  $("#deck-name-input").val("");
+  displayDecks();
+}
+
+const deleteDeck = (deckName) => {
+  const decks = JSON.parse(localStorage.getItem("decks")) || [];
+  const newDecks = decks.filter((deck) => deck.name !== deckName);
+  localStorage.setItem("decks", JSON.stringify(newDecks));
+  displayDecks();
+};
+
+// global function -> inline onclick
+window.toggleToDeck = toggleToDeck;
+window.toggleToLikedCards = toggleToLikedCards;
+window.displayLikedCards = displayLikedCards;
+window.deleteDeck = deleteDeck;

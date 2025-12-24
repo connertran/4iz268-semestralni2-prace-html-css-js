@@ -25,9 +25,7 @@ const addCardsToHTMLSection = (cardsArr, numCards = cardsArr.length) => {
       <button class="card-btn" onclick="${likeFunction}('${
       card.card_image_id
     }', '${card.card_image}')">${likeButtonText}</button>
-      <button class="card-btn" onclick="addToDeck('${card.card_image_id}', '${
-      card.card_image
-    }')">Add to Deck</button>
+      
     </div>
       </div>
     `;
@@ -150,11 +148,6 @@ const dislikeCardLocalStorage = async (card_image_id, card_image) => {
   }
 };
 
-// make functions globally -> incline onclick
-window.likeCardLocalStorage = likeCardLocalStorage;
-window.dislikeCardLocalStorage = dislikeCardLocalStorage;
-window.fetchIndividualCard = fetchIndividualCard;
-
 const checkIfCardIsLiked = (card_image_id, card_image) => {
   try {
     const likedCards = JSON.parse(localStorage.getItem("likedCards")) || [];
@@ -173,3 +166,17 @@ const checkIfCardIsLiked = (card_image_id, card_image) => {
     return false;
   }
 };
+
+export {
+  likeCardLocalStorage,
+  dislikeCardLocalStorage,
+  checkIfCardIsLiked,
+  fetchCardDataByImage,
+  fetchIndividualCard,
+};
+
+// make functions globally -> incline onclick
+window.likeCardLocalStorage = likeCardLocalStorage;
+window.dislikeCardLocalStorage = dislikeCardLocalStorage;
+window.fetchIndividualCard = fetchIndividualCard;
+window.checkIfCardIsLiked = checkIfCardIsLiked;

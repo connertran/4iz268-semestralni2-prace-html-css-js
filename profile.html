@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     <link rel="stylesheet" href="sharingComponents.css" />
+    <link rel="stylesheet" href="profile.css" />
   </head>
   <body>
     <nav>
@@ -13,9 +14,27 @@
       <a href="profile.html">Profile</a>
     </nav>
     <h1>Profile</h1>
+    <button id="deck-switch" onclick="toggleToDeck()">Decks</button>
+    <button id="liked-cards-switch" onclick="toggleToLikedCards()">
+      Favorite List
+    </button>
     <section id="liked-cards-section">
       <h2>Liked Cards</h2>
       <div id="liked-cards-container"></div>
+    </section>
+    <section id="deck-section">
+      <h2>Decks</h2>
+      <form id="add-deck-form">
+        <input
+          type="text"
+          placeholder="Add deck name"
+          name="deck-name"
+          id="deck-name-input"
+          required
+        />
+        <button type="submit">New Deck</button>
+      </form>
+      <div id="deck-container"></div>
     </section>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
@@ -25,7 +44,7 @@
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script src="app.js"></script>
-    <script src="profile.js"></script>
+    <script type="module" src="app.js"></script>
+    <script type="module" src="profile.js"></script>
   </body>
 </html>

@@ -1,3 +1,9 @@
+import {
+  likeCardLocalStorage,
+  dislikeCardLocalStorage,
+  checkIfCardIsLiked,
+} from "./app.js";
+
 // avoid error if user isn't redirected from homepage, meaning no card object in the local storage, use default card object
 const defaultCard = {
   inventory_price: 0.8,
@@ -23,17 +29,44 @@ const defaultCard = {
 
 const individualCard = JSON.parse(localStorage.getItem("individualCard"));
 
+const handleLikeDislikeCard = async (card_image_id, card_image) => {
+  try {
+    const isLiked = checkIfCardIsLiked(card_image_id, card_image);
+    if (isLiked) {
+      await dislikeCardLocalStorage(card_image_id, card_image);
+    } else {
+      await likeCardLocalStorage(card_image_id, card_image);
+    }
+
+    const currentCard =
+      JSON.parse(localStorage.getItem("individualCard")) || individualCard;
+    displayCardInfo(currentCard);
+  } catch (error) {
+    console.error("Error handling like/dislike:", error);
+  }
+};
+
 const displayCardInfo = (individualCard) => {
   $("#individual-card-section").empty();
   if (!individualCard || individualCard?.card_name === undefined) {
     individualCard = defaultCard;
   }
+
+  const isLiked = checkIfCardIsLiked(
+    individualCard.card_image_id,
+    individualCard.card_image
+  );
+  const likeButtonText = isLiked ? "Unlike Card" : "Like Card";
+
   const cardInfo = `
     <h2>${individualCard.card_name}</h2>
     <img src="${individualCard.card_image}" alt="${individualCard.card_name} img">
-    
+    <button onclick="handleLikeDislikeCard('${individualCard.card_image_id}', '${individualCard.card_image}')">${likeButtonText}</button>
     `;
   $("#individual-card-section").append(cardInfo);
 };
+
+// global function -> inline onclick
+window.handleLikeDislikeCard = handleLikeDislikeCard;
 
 displayCardInfo(individualCard);
