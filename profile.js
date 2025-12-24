@@ -6,6 +6,8 @@ import {
 
 const displayLikedCards = async () => {
   try {
+    $("#deck-section").hide();
+    $("#liked-cards-section").show();
     $("#liked-cards-container").empty();
     const likedCards = JSON.parse(localStorage.getItem("likedCards")) || [];
     for (let i = 0; i < likedCards.length; i++) {
@@ -30,7 +32,24 @@ const displayLikedCards = async () => {
   }
 };
 
-displayLikedCards(); // default view when profile.html loads
+const displayDecks = () => {
+  try {
+    $("#deck-container").empty();
+    const decks = JSON.parse(localStorage.getItem("decks")) || [];
+    for (let i = 0; i < decks.length; i++) {
+      const deck = decks[i];
+      const $deckElement = $('<div class="individual-deck-div"></div>');
+      $deckElement.html(`
+        <h3>${deck.name}</h3>
+        <button class="card-btn" onclick="viewDeck('${deck.name}')">View Deck</button>
+        <button class="card-btn" onclick="deleteDeck('${deck.name}')">Delete Deck</button>
+      `);
+      $("#deck-container").append($deckElement);
+    }
+  } catch (error) {
+    console.error("Error displaying decks:", error);
+  }
+};
 
 const toggleToDeck = () => {
   $("#deck-section").show();
@@ -44,23 +63,14 @@ const toggleToLikedCards = () => {
   displayLikedCards();
 };
 
-const displayDecks = () => {
-  try {
-    $("#deck-container").empty();
-    const decks = JSON.parse(localStorage.getItem("decks")) || [];
-    for (let i = 0; i < decks.length; i++) {
-      const deck = decks[i];
-      const $deckElement = $('<div class="individual-deck-div"></div>');
-      $deckElement.html(`
-        <h3>${deck.name}</h3>
-        <button class="card-btn" onclick="deleteDeck('${deck.name}')">Delete Deck</button>
-      `);
-      $("#deck-container").append($deckElement);
-    }
-  } catch (error) {
-    console.error("Error displaying decks:", error);
-  }
-};
+// check for redirection from other pages
+const showDeckSection = localStorage.getItem("showDeckSection");
+if (showDeckSection === "true") {
+  localStorage.removeItem("showDeckSection");
+  toggleToDeck();
+} else {
+  displayLikedCards();
+}
 
 $("#add-deck-form").on("submit", addDeck);
 function addDeck(event) {
@@ -77,6 +87,11 @@ function addDeck(event) {
   displayDecks();
 }
 
+const viewDeck = (deckName) => {
+  localStorage.setItem("selectedDeckName", deckName);
+  window.location.href = "IndividualDeck.html";
+};
+
 const deleteDeck = (deckName) => {
   const decks = JSON.parse(localStorage.getItem("decks")) || [];
   const newDecks = decks.filter((deck) => deck.name !== deckName);
@@ -89,3 +104,4 @@ window.toggleToDeck = toggleToDeck;
 window.toggleToLikedCards = toggleToLikedCards;
 window.displayLikedCards = displayLikedCards;
 window.deleteDeck = deleteDeck;
+window.viewDeck = viewDeck;

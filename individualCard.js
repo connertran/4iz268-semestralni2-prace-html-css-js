@@ -46,6 +46,58 @@ const handleLikeDislikeCard = async (card_image_id, card_image) => {
   }
 };
 
+const getAllDecks = () => {
+  try {
+    return JSON.parse(localStorage.getItem("decks")) || [];
+  } catch (error) {
+    console.error("Error getting decks:", error);
+    return [];
+  }
+};
+
+const addCardToDeck = (deckName, card_image_id, card_image) => {
+  try {
+    const decks = getAllDecks();
+    const deckIndex = decks.findIndex((deck) => deck.name === deckName);
+
+    if (deckIndex === -1) {
+      console.error("Can't find this deck in the local storage", deckName);
+      return;
+    }
+
+    // no duplicates in a deck
+    const cardExists = decks[deckIndex].cards.some(
+      (card) =>
+        card.card_image_id === card_image_id && card.card_image === card_image
+    );
+
+    if (!cardExists) {
+      decks[deckIndex].cards.push({ card_image_id, card_image });
+      localStorage.setItem("decks", JSON.stringify(decks));
+      alert(`Card added to ${deckName}!`);
+    } else {
+      alert(`Card already exists in ${deckName}!`);
+    }
+  } catch (error) {
+    console.error("Error adding card to deck:", error);
+  }
+};
+
+const handleDeckSelection = (deckName, card_image_id, card_image) => {
+  if (!deckName) return;
+
+  if (deckName === "add-more-decks") {
+    localStorage.setItem("showDeckSection", "true");
+    window.location.href = "profile.html";
+  } else {
+    addCardToDeck(deckName, card_image_id, card_image);
+    const $selectElement = $("#deck-select");
+    if ($selectElement) {
+      $selectElement.val("");
+    }
+  }
+};
+
 const displayCardInfo = (individualCard) => {
   $("#individual-card-section").empty();
   if (!individualCard || individualCard?.card_name === undefined) {
@@ -58,15 +110,31 @@ const displayCardInfo = (individualCard) => {
   );
   const likeButtonText = isLiked ? "Unlike Card" : "Like Card";
 
+  // add all decks to the dropdown (add to deck...)
+  const decks = getAllDecks();
+  let deckOptions = "";
+  for (let i = 0; i < decks.length; i++) {
+    deckOptions += `<option value="${decks[i].name}">${decks[i].name}</option>`;
+  }
+  deckOptions += `<option value="add-more-decks">Add More Decks</option>`;
+
   const cardInfo = `
     <h2>${individualCard.card_name}</h2>
     <img src="${individualCard.card_image}" alt="${individualCard.card_name} img">
     <button onclick="handleLikeDislikeCard('${individualCard.card_image_id}', '${individualCard.card_image}')">${likeButtonText}</button>
+    <div>
+      <label for="deck-select">Add to Deck:</label>
+      <select id="deck-select" onchange="handleDeckSelection(this.value, '${individualCard.card_image_id}', '${individualCard.card_image}')">
+        <option value="">Select a deck...</option>
+        ${deckOptions}
+      </select>
+    </div>
     `;
   $("#individual-card-section").append(cardInfo);
 };
 
 // global function -> inline onclick
 window.handleLikeDislikeCard = handleLikeDislikeCard;
+window.handleDeckSelection = handleDeckSelection;
 
 displayCardInfo(individualCard);

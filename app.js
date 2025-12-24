@@ -56,6 +56,7 @@ const searchSpecificCard = async (event) => {
     const response = await axios.get(specificCardSetURL);
     const cardsArr = response.data;
     addCardsToHTMLSection(cardsArr);
+    $("#search-card-input").val("");
   } catch (error) {
     alert("We couldn't find the card you're looking for.");
     console.error("Error searching for card:", error);
@@ -92,6 +93,9 @@ const fetchCardDataByImage = async (card_image_id, card_image) => {
     }
     return individualCard;
   } catch (error) {
+    alert(
+      "We are sorry, the OP-TCG API is currently having problems with this card. Please try a different card."
+    );
     console.error("Error fetching card data:", error);
     throw error;
   }
