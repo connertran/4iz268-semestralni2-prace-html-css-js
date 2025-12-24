@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <link rel="stylesheet" href="home.css" />
+    <title>Profile</title>
     <link rel="stylesheet" href="sharingComponents.css" />
   </head>
   <body>
@@ -13,18 +12,10 @@
       <a href="IndividualCard.html">Individual Card</a>
       <a href="profile.html">Profile</a>
     </nav>
-    <h1>Popular OnePiece Cards</h1>
-    <form id="search-form">
-      <input
-        type="text"
-        placeholder="Search cards by ID"
-        name="search"
-        id="search-card-input"
-      />
-      <button type="submit">Search</button>
-    </form>
-    <section id="popular-cards-section">
-      <!-- Use API to fetch cards -->
+    <h1>Profile</h1>
+    <section id="liked-cards-section">
+      <h2>Liked Cards</h2>
+      <div id="liked-cards-container"></div>
     </section>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
@@ -35,5 +26,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script src="app.js"></script>
+    <script src="profile.js"></script>
   </body>
 </html>

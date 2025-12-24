@@ -11,3 +11,7 @@
   width: 140px;
   height: 196px;
 }
+
+.card-container {
+  border: 1px solid blue;
+}

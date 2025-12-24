@@ -6,13 +6,31 @@ const addCardsToHTMLSection = (cardsArr, numCards = cardsArr.length) => {
   for (let i = 0; i < numCards; i++) {
     const card = cardsArr[i];
     const cardElement = document.createElement("div");
+    const isLiked = checkIfCardIsLiked(card.card_image_id, card.card_image);
+    const likeFunction = isLiked
+      ? "dislikeCardLocalStorage"
+      : "likeCardLocalStorage";
+    const likeButtonText = isLiked ? "Unlike Card" : "Like Card";
     cardElement.innerHTML = `
+    <div class="card-container">
             <img src="${
               card.card_image
             }" alt="${`${card.card_name} img`}" onclick="fetchIndividualCard('${
       card.card_image_id
     }', '${card.card_image}')">
-        `;
+    <div class="card-btns">
+      <button class="card-btn" onclick="fetchIndividualCard('${
+        card.card_image_id
+      }', '${card.card_image}')">View Card</button>
+      <button class="card-btn" onclick="${likeFunction}('${
+      card.card_image_id
+    }', '${card.card_image}')">${likeButtonText}</button>
+      <button class="card-btn" onclick="addToDeck('${card.card_image_id}', '${
+      card.card_image
+    }')">Add to Deck</button>
+    </div>
+      </div>
+    `;
     $("#popular-cards-section").append(cardElement);
   }
 };
@@ -56,13 +74,14 @@ const showSpecificCardInfo = async () => {
   }
 };
 
-const fetchIndividualCard = async (card_image_id, card_image) => {
+// Fetch card data from API
+const fetchCardDataByImage = async (card_image_id, card_image) => {
   try {
     const individualCardURL = `https://www.optcgapi.com/api/sets/card/${card_image_id}/`;
     const response = await axios.get(individualCardURL);
     const cards = response.data;
 
-    //response is not an object but an array of cards. We need to get the specific card, query it by card_image
+    // Response is an array of cards. Find the specific card by matching card_image
     let individualCard = null;
     for (let i = 0; i < cards.length; i++) {
       if (cards[i].card_image === card_image) {
@@ -73,12 +92,84 @@ const fetchIndividualCard = async (card_image_id, card_image) => {
     if (!individualCard) {
       throw new Error("Card not found based on the image URL.");
     }
-    // save to local storage, so the individual card page can access it
+    return individualCard;
+  } catch (error) {
+    console.error("Error fetching card data:", error);
+    throw error;
+  }
+};
+
+// Fetch card data, localStorage, redirect to individual card page
+const fetchIndividualCard = async (card_image_id, card_image) => {
+  try {
+    const individualCard = await fetchCardDataByImage(
+      card_image_id,
+      card_image
+    );
+
+    // Save to local storage, so the individual card page can access it
     localStorage.setItem("individualCard", JSON.stringify(individualCard));
 
     // Redirect user to the individual card page
     window.location.href = "IndividualCard.html";
   } catch (error) {
     console.error("Error fetching individual card:", error);
+  }
+};
+
+const likeCardLocalStorage = async (card_image_id, card_image) => {
+  try {
+    const savingObj = { card_image_id, card_image };
+    const likedCards = JSON.parse(localStorage.getItem("likedCards")) || [];
+    likedCards.push(savingObj);
+    localStorage.setItem("likedCards", JSON.stringify(likedCards));
+    // Refresh the cards to see updated liked button
+    fetchPopularCards();
+  } catch (e) {
+    console.error("Error liking card:", e);
+  }
+};
+
+const dislikeCardLocalStorage = async (card_image_id, card_image) => {
+  try {
+    const likedCards = JSON.parse(localStorage.getItem("likedCards")) || [];
+    if (likedCards.length === 0) return;
+
+    const newLikedCards = likedCards.filter(
+      (card) =>
+        card.card_image_id !== card_image_id && card.card_image !== card_image
+    );
+
+    localStorage.setItem("likedCards", JSON.stringify(newLikedCards));
+    // Refresh the cards to see updated liked button
+    fetchPopularCards();
+    // Refresh liked page in profile.html
+    displayLikedCards();
+  } catch (e) {
+    console.error("Error disliking card:", e);
+  }
+};
+
+// make functions globally -> incline onclick
+window.likeCardLocalStorage = likeCardLocalStorage;
+window.dislikeCardLocalStorage = dislikeCardLocalStorage;
+window.fetchIndividualCard = fetchIndividualCard;
+
+const checkIfCardIsLiked = (card_image_id, card_image) => {
+  try {
+    const likedCards = JSON.parse(localStorage.getItem("likedCards")) || [];
+    if (likedCards.length === 0) return false;
+    for (let i = 0; i < likedCards.length; i++) {
+      if (
+        likedCards[i].card_image_id === card_image_id &&
+        likedCards[i].card_image === card_image
+      ) {
+        return true;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error("Error checking if card is liked:", error);
+    return false;
   }
 };
