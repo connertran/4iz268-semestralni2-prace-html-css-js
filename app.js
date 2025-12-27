@@ -12,12 +12,9 @@ const addCardsToHTMLSection = (cardsArr, numCards = cardsArr.length) => {
       : "likeCardLocalStorage";
     const likeButtonText = isLiked ? "Unlike Card" : "Like Card";
     cardElement.innerHTML = `
+
     <div class="card-container">
-            <img src="${
-              card.card_image
-            }" alt="${`${card.card_name} img`}" onclick="fetchIndividualCard('${
-      card.card_image_id
-    }', '${card.card_image}')">
+            <img src="${card.card_image}" alt="${`${card.card_name} img`}">
     <div class="card-btns">
       <button class="card-btn" onclick="fetchIndividualCard('${
         card.card_image_id
@@ -28,6 +25,7 @@ const addCardsToHTMLSection = (cardsArr, numCards = cardsArr.length) => {
       
     </div>
       </div>
+
     `;
     $("#popular-cards-section").append(cardElement);
   }

@@ -9,24 +9,35 @@
   </head>
   <body>
     <nav>
-      <a href="home.html">Home</a>
-      <a href="IndividualCard.html">Individual Card</a>
-      <a href="profile.html">Profile</a>
+      <a href="home.html" class="logo-link">
+        <img
+          src="/images/One-Piece-Logo.png"
+          alt="OnePiece Logo"
+          id="onepiece-logo"
+        />
+      </a>
+      <div class="links-div">
+        <a href="home.html" class="active">Home</a>
+        <a href="IndividualCard.html">Individual Card</a>
+        <a href="profile.html">Profile</a>
+      </div>
     </nav>
-    <h1>Popular OnePiece Cards</h1>
-    <form id="search-form">
-      <input
-        type="text"
-        placeholder="Search cards by ID"
-        name="search"
-        id="search-card-input"
-        required
-      />
-      <button type="submit">Search</button>
-    </form>
-    <section id="popular-cards-section">
-      <!-- Use API to fetch cards -->
-    </section>
+    <div class="main-content">
+      <h1>Popular OnePiece Cards</h1>
+      <form id="search-form">
+        <input
+          type="text"
+          placeholder="Search cards by ID"
+          name="search"
+          id="search-card-input"
+          required
+        />
+        <button type="submit">Search</button>
+      </form>
+      <section id="popular-cards-section">
+        <!-- Use API to fetch cards -->
+      </section>
+    </div>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
       integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
