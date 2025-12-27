@@ -119,15 +119,60 @@ const displayCardInfo = (individualCard) => {
   deckOptions += `<option value="add-more-decks">Add More Decks</option>`;
 
   const cardInfo = `
-    <h2>${individualCard.card_name}</h2>
-    <img src="${individualCard.card_image}" alt="${individualCard.card_name} img">
-    <button onclick="handleLikeDislikeCard('${individualCard.card_image_id}', '${individualCard.card_image}')">${likeButtonText}</button>
-    <div>
-      <label for="deck-select">Add to Deck:</label>
-      <select id="deck-select" onchange="handleDeckSelection(this.value, '${individualCard.card_image_id}', '${individualCard.card_image}')">
-        <option value="">Select a deck...</option>
-        ${deckOptions}
-      </select>
+    <div class="card-header">
+      <p>${individualCard.card_image_id} | ${individualCard.rarity} | ${individualCard.card_color}</p>
+      <h1>${individualCard.card_name}</h1>
+    </div>
+    
+    <div class="card-content">
+      <div class="card-image-container">
+        <img src="${individualCard.card_image}" alt="${individualCard.card_name} img">
+      </div>
+      
+      <div class="card-details">
+        <div class="detail-row">
+          <span class="detail-label">Type</span>
+          <span class="detail-value">${individualCard.card_type}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Cost</span>
+          <span class="detail-value">${individualCard.card_cost}</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Life</span>
+          <span class="detail-value">${individualCard.life}</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Power</span>
+          <span class="detail-value">${individualCard.card_power}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Attribute</span>
+          <span class="detail-value">${individualCard.attribute}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Sub Types</span>
+          <span class="detail-value">${individualCard.sub_types}</span>
+        </div>
+        
+        <div class="effect-section">
+          <h3>Effect</h3>
+          <div class="effect-text">${individualCard.card_text}</div>
+        </div>
+        
+        <div class="card-actions">
+          <button onclick="handleLikeDislikeCard('${individualCard.card_image_id}', '${individualCard.card_image}')">${likeButtonText}</button>
+          <div class="deck-select-container">
+            <label for="deck-select">Add to Deck</label>
+            <select id="deck-select" onchange="handleDeckSelection(this.value, '${individualCard.card_image_id}', '${individualCard.card_image}')">
+              <option value="">Select a deck...</option>
+              ${deckOptions}
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
     `;
   $("#individual-card-section").append(cardInfo);
