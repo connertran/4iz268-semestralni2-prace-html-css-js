@@ -64,7 +64,9 @@ const displayDeckCards = async () => {
     const deck = decks.find((d) => d.name === selectedDeckName);
 
     if (!deck || !deck.cards || deck.cards.length === 0) {
-      $("#deck-cards-section").html("<p>This deck is empty.</p>");
+      $("#deck-cards-section").addClass("no-cards").html(`
+        <p>This deck is empty.</p>
+        `);
       return;
     }
 
@@ -86,12 +88,12 @@ const displayDeckCards = async () => {
         // Add card element to HTML
         const $cardElement = $("<div></div>");
         $cardElement.html(`
-          <div class="card-container">
+          <div class="deck-card-container">
             <img src="${card.card_image}" alt="${card.card_name} img">
-            <div class="card-btns">
-              <button class="card-btn" onclick="fetchIndividualCard('${card.card_image_id}', '${card.card_image}')">View Card</button>
-              <button class="card-btn" onclick="${likeFunction}('${card.card_image_id}', '${card.card_image}')">${likeButtonText}</button>
-              <button class="card-btn" onclick="removeCardFromDeck('${selectedDeckName}', '${card.card_image_id}', '${card.card_image}')">Remove from Deck</button>
+            <div class="deck-card-btns">
+              <button class="deck-card-btn" onclick="fetchIndividualCard('${card.card_image_id}', '${card.card_image}')">View Card</button>
+              <button class="deck-card-btn" onclick="${likeFunction}('${card.card_image_id}', '${card.card_image}')">${likeButtonText}</button>
+              <button class="deck-card-btn remove" onclick="removeCardFromDeck('${selectedDeckName}', '${card.card_image_id}', '${card.card_image}')">Remove from Deck</button>
             </div>
           </div>
         `);

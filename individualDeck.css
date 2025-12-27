@@ -1,0 +1,104 @@
+.deck-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #6b46c1;
+  font-size: 36px;
+  margin-bottom: 40px;
+  font-weight: bold;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #6b46c1;
+}
+
+#deck-cards-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+#deck-cards-section.no-cards {
+  display: block;
+  text-align: center;
+}
+
+#deck-cards-section.no-cards p {
+  color: #6b46c1;
+  font-size: 18px;
+  padding: 40px;
+  display: inline-block;
+}
+
+.deck-card-container {
+  background-color: #f5f3ff;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s;
+  position: relative;
+  overflow: visible;
+  border-radius: 10px;
+}
+
+.deck-card-container:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+.deck-card-container img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 5px;
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: filter 0.3s, box-shadow 0.3s;
+}
+
+.deck-card-container:hover img {
+  filter: brightness(0.6);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.deck-card-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+.deck-card-container:hover .deck-card-btns {
+  opacity: 1;
+}
+
+.deck-card-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #6b46c1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 150px;
+}
+
+.deck-card-btn:hover {
+  background-color: #7c3aed;
+}
+
+.deck-card-btn.remove {
+  background-color: #dc2626;
+}
+
+.deck-card-btn.remove:hover {
+  background-color: #b91c1c;
+}
