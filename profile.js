@@ -6,8 +6,10 @@ import {
 
 const displayLikedCards = async () => {
   try {
-    $("#deck-section").hide();
-    $("#liked-cards-section").show();
+    $("#deck-section").removeClass("show");
+    $("#liked-cards-section").addClass("show");
+    $(".toggle-btn").removeClass("active");
+    $("#liked-cards-switch").addClass("active");
     $("#liked-cards-container").empty();
     const likedCards = JSON.parse(localStorage.getItem("likedCards")) || [];
     for (let i = 0; i < likedCards.length; i++) {
@@ -17,11 +19,11 @@ const displayLikedCards = async () => {
       );
       const $cardElement = $("<div></div>");
       $cardElement.html(`
-        <div class="card-container">
+        <div class="profile-card-container">
           <img src="${card.card_image}" alt="${card.card_name} img">
-          <div class="card-btns">
-            <button class="card-btn" onclick="fetchIndividualCard('${card.card_image_id}', '${card.card_image}')">View Card</button>
-            <button class="card-btn" onclick="dislikeCardLocalStorage('${card.card_image_id}', '${card.card_image}')">Unlike Card</button>
+          <div class="profile-card-btns">
+            <button class="profile-card-btn" onclick="fetchIndividualCard('${card.card_image_id}', '${card.card_image}')">View Card</button>
+            <button class="profile-card-btn" onclick="dislikeCardLocalStorage('${card.card_image_id}', '${card.card_image}')">Unlike Card</button>
           </div>
         </div>
       `);
@@ -41,8 +43,10 @@ const displayDecks = () => {
       const $deckElement = $('<div class="individual-deck-div"></div>');
       $deckElement.html(`
         <h3>${deck.name}</h3>
-        <button class="card-btn" onclick="viewDeck('${deck.name}')">View Deck</button>
-        <button class="card-btn" onclick="deleteDeck('${deck.name}')">Delete Deck</button>
+        <div class="deck-actions">
+          <button class="deck-btn" onclick="viewDeck('${deck.name}')">View Deck</button>
+          <button class="deck-btn delete" onclick="deleteDeck('${deck.name}')">Delete Deck</button>
+        </div>
       `);
       $("#deck-container").append($deckElement);
     }
@@ -52,14 +56,18 @@ const displayDecks = () => {
 };
 
 const toggleToDeck = () => {
-  $("#deck-section").show();
-  $("#liked-cards-section").hide();
+  $("#liked-cards-section").removeClass("show");
+  $("#deck-section").addClass("show");
+  $(".toggle-btn").removeClass("active");
+  $("#deck-switch").addClass("active");
   displayDecks();
 };
 
 const toggleToLikedCards = () => {
-  $("#deck-section").hide();
-  $("#liked-cards-section").show();
+  $("#deck-section").removeClass("show");
+  $("#liked-cards-section").addClass("show");
+  $(".toggle-btn").removeClass("active");
+  $("#liked-cards-switch").addClass("active");
   displayLikedCards();
 };
 
@@ -69,7 +77,7 @@ if (showDeckSection === "true") {
   localStorage.removeItem("showDeckSection");
   toggleToDeck();
 } else {
-  displayLikedCards();
+  toggleToLikedCards();
 }
 
 $("#add-deck-form").on("submit", addDeck);

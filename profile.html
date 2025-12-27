@@ -22,29 +22,41 @@
         <a href="profile.html" class="active">Profile</a>
       </div>
     </nav>
-    <h1>Profile</h1>
-    <button id="deck-switch" onclick="toggleToDeck()">Decks</button>
-    <button id="liked-cards-switch" onclick="toggleToLikedCards()">
-      Favorite List
-    </button>
-    <section id="liked-cards-section">
-      <h2>Liked Cards</h2>
-      <div id="liked-cards-container"></div>
-    </section>
-    <section id="deck-section">
-      <h2>Decks</h2>
-      <form id="add-deck-form">
-        <input
-          type="text"
-          placeholder="Add deck name"
-          name="deck-name"
-          id="deck-name-input"
-          required
-        />
-        <button type="submit">New Deck</button>
-      </form>
-      <div id="deck-container"></div>
-    </section>
+    <div class="profile-content">
+      <h1>Profile</h1>
+      <div class="toggle-buttons">
+        <button
+          id="liked-cards-switch"
+          onclick="toggleToLikedCards()"
+          class="toggle-btn active"
+        >
+          Favorite List
+        </button>
+        <button id="deck-switch" onclick="toggleToDeck()" class="toggle-btn">
+          Decks
+        </button>
+      </div>
+
+      <section id="liked-cards-section">
+        <h2>Liked Cards</h2>
+        <div id="liked-cards-container"></div>
+      </section>
+
+      <section id="deck-section">
+        <h2>Decks</h2>
+        <form id="add-deck-form">
+          <input
+            type="text"
+            placeholder="Add deck name"
+            name="deck-name"
+            id="deck-name-input"
+            required
+          />
+          <button type="submit">New Deck</button>
+        </form>
+        <div id="deck-container"></div>
+      </section>
+    </div>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
       integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="

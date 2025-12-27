@@ -1,3 +1,218 @@
+.profile-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #6b46c1;
+  font-size: 36px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.toggle-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.toggle-btn {
+  padding: 12px 30px;
+  font-size: 16px;
+  background-color: white;
+  color: #6b46c1;
+  border: 2px solid #6b46c1;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.toggle-btn:hover {
+  background-color: #f5f3ff;
+}
+
+.toggle-btn.active {
+  background-color: #6b46c1;
+  color: white;
+}
+
+h2 {
+  color: #6b46c1;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+#liked-cards-section,
+#deck-section {
+  display: none;
+}
+
+#liked-cards-section.show,
+#deck-section.show {
+  display: block;
+}
+
+#liked-cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.profile-card-container {
+  background-color: white;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s;
+  position: relative;
+  overflow: visible;
+  border-radius: 10px;
+}
+
+.profile-card-container:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+.profile-card-container img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 5px;
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: filter 0.3s, box-shadow 0.3s;
+}
+
+.profile-card-container:hover img {
+  filter: brightness(0.6);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.profile-card-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+.profile-card-container:hover .profile-card-btns {
+  opacity: 1;
+}
+
+.profile-card-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #6b46c1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 150px;
+}
+
+.profile-card-btn:hover {
+  background-color: #7c3aed;
+}
+
+#add-deck-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+#deck-name-input {
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 2px solid #6b46c1;
+  border-radius: 5px;
+}
+
+#deck-name-input:focus {
+  outline: none;
+  border-color: #7c3aed;
+}
+
+#add-deck-form button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #6b46c1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#add-deck-form button:hover {
+  background-color: #7c3aed;
+}
+
+#deck-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px 0;
+}
+
 .individual-deck-div {
-  border: 1px solid black;
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.individual-deck-div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.individual-deck-div h3 {
+  color: #6b46c1;
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.deck-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.deck-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #6b46c1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.deck-btn:hover {
+  background-color: #7c3aed;
+}
+
+.deck-btn.delete {
+  background-color: #dc2626;
+}
+
+.deck-btn.delete:hover {
+  background-color: #b91c1c;
 }
