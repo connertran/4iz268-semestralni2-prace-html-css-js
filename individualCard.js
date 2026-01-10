@@ -40,6 +40,7 @@ const handleLikeDislikeCard = async (card_image_id, card_image) => {
 
     const currentCard =
       JSON.parse(localStorage.getItem("individualCard")) || individualCard;
+    // "refresh" page
     displayCardInfo(currentCard);
   } catch (error) {
     console.error("Error handling like/dislike:", error);
@@ -58,18 +59,31 @@ const getAllDecks = () => {
 const addCardToDeck = (deckName, card_image_id, card_image) => {
   try {
     const decks = getAllDecks();
-    const deckIndex = decks.findIndex((deck) => deck.name === deckName);
+    let deckIndex = -1;
+
+    for (let i = 0; i < decks.length; i++) {
+      if (decks[i].name === deckName) {
+        deckIndex = i;
+        break;
+      }
+    }
 
     if (deckIndex === -1) {
       console.error("Can't find this deck in the local storage", deckName);
       return;
     }
 
-    // no duplicates in a deck
-    const cardExists = decks[deckIndex].cards.some(
-      (card) =>
-        card.card_image_id === card_image_id && card.card_image === card_image
-    );
+    let cardExists = false;
+    for (let i = 0; i < decks[deckIndex].cards.length; i++) {
+      const card = decks[deckIndex].cards[i];
+      if (
+        card.card_image_id === card_image_id &&
+        card.card_image === card_image
+      ) {
+        cardExists = true;
+        break;
+      }
+    }
 
     if (!cardExists) {
       decks[deckIndex].cards.push({ card_image_id, card_image });

@@ -64,13 +64,6 @@ const searchSpecificCard = async (event) => {
 // user's search submisstion homepage
 $("#search-form").on("submit", searchSpecificCard);
 
-const showSpecificCardInfo = async () => {
-  try {
-  } catch (error) {
-    console.error("Error searching for card:", error);
-  }
-};
-
 // Fetch card data from API
 const fetchCardDataByImage = async (card_image_id, card_image) => {
   try {
@@ -107,7 +100,7 @@ const fetchIndividualCard = async (card_image_id, card_image) => {
       card_image
     );
 
-    // Save to local storage, so the individual card page can access it
+    // Save to local storage, individual then know which card to show...
     localStorage.setItem("individualCard", JSON.stringify(individualCard));
 
     // Redirect user to the individual card page
@@ -135,10 +128,16 @@ const dislikeCardLocalStorage = async (card_image_id, card_image) => {
     const likedCards = JSON.parse(localStorage.getItem("likedCards")) || [];
     if (likedCards.length === 0) return;
 
-    const newLikedCards = likedCards.filter(
-      (card) =>
-        card.card_image_id !== card_image_id && card.card_image !== card_image
-    );
+    const newLikedCards = [];
+    for (let i = 0; i < likedCards.length; i++) {
+      const card = likedCards[i];
+      if (
+        card.card_image_id !== card_image_id &&
+        card.card_image !== card_image
+      ) {
+        newLikedCards.push(card);
+      }
+    }
 
     localStorage.setItem("likedCards", JSON.stringify(newLikedCards));
     // Refresh the cards to see updated liked button

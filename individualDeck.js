@@ -29,19 +29,32 @@ const handleUnlikeCard = async (card_image_id, card_image) => {
 const removeCardFromDeck = (deckName, card_image_id, card_image) => {
   try {
     const decks = JSON.parse(localStorage.getItem("decks")) || [];
-    const deckIndex = decks.findIndex((deck) => deck.name === deckName);
+    let deckIndex = -1;
+
+    for (let i = 0; i < decks.length; i++) {
+      if (decks[i].name === deckName) {
+        deckIndex = i;
+        break;
+      }
+    }
 
     if (deckIndex === -1) {
       console.error("Deck not found:", deckName);
       return;
     }
 
-    decks[deckIndex].cards = decks[deckIndex].cards.filter(
-      (card) =>
+    const newCards = [];
+    for (let i = 0; i < decks[deckIndex].cards.length; i++) {
+      const card = decks[deckIndex].cards[i];
+      if (
         !(
           card.card_image_id === card_image_id && card.card_image === card_image
         )
-    );
+      ) {
+        newCards.push(card);
+      }
+    }
+    decks[deckIndex].cards = newCards;
 
     localStorage.setItem("decks", JSON.stringify(decks));
 
@@ -61,7 +74,13 @@ const displayDeckCards = async () => {
     $("#deck-title").text(selectedDeckName);
 
     const decks = JSON.parse(localStorage.getItem("decks")) || [];
-    const deck = decks.find((d) => d.name === selectedDeckName);
+    let deck = null;
+    for (let i = 0; i < decks.length; i++) {
+      if (decks[i].name === selectedDeckName) {
+        deck = decks[i];
+        break;
+      }
+    }
 
     if (!deck || !deck.cards || deck.cards.length === 0) {
       $("#deck-cards-section").addClass("no-cards").html(`

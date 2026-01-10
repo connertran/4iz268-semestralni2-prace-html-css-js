@@ -46,12 +46,18 @@ h2 {
   font-weight: bold;
 }
 
-#liked-cards-section,
+#liked-cards-section {
+  display: none;
+}
+
 #deck-section {
   display: none;
 }
 
-#liked-cards-section.show,
+#liked-cards-section.show {
+  display: block;
+}
+
 #deck-section.show {
   display: block;
 }
