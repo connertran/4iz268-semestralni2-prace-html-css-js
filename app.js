@@ -104,7 +104,7 @@ const fetchIndividualCard = async (card_image_id, card_image) => {
     localStorage.setItem("individualCard", JSON.stringify(individualCard));
 
     // Redirect user to the individual card page
-    window.location.href = "IndividualCard.html";
+    window.location.href = "individualCard.html";
   } catch (error) {
     console.error("Error fetching individual card:", error);
   }

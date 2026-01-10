@@ -97,7 +97,7 @@ function addDeck(event) {
 
 const viewDeck = (deckName) => {
   localStorage.setItem("selectedDeckName", deckName);
-  window.location.href = "IndividualDeck.html";
+  window.location.href = "individualDeck.html";
 };
 
 const deleteDeck = (deckName) => {
